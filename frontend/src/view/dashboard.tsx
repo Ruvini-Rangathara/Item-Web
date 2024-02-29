@@ -1,3 +1,6 @@
+import DataTable from "./table.tsx";
+import { MdOutlineEdit } from "react-icons/md";
+
 const Dashboard = () => {
     return (
         <div className={'ml-[5vw] w-100vw bg-[white] h-screen pt-14 flex'}>
@@ -17,7 +20,25 @@ const Dashboard = () => {
 
                 </div>
 
-                <div className={'w-[97%] h-[73vh] border rounded-lg mx-6 mt-4'}>
+                <div className={'bg-[#F5F5F5] w-[97%] h-[73vh] border rounded-lg mx-6 mt-4 px-10 pt-4'}>
+                    <div className={'flex mb-4 justify-between'}>
+
+                        <div className={'w-[80%]'}>
+                            <input type={'text'} placeholder={'Search...'}
+                                   className={'w-[35%] h-[30px] border rounded-lg pl-4'}/>
+                            <button className={'w-[12%] h-[28px] bg-[#87C331] text-white rounded-lg ml-4'}>Search
+                            </button>
+                        </div>
+                        <button className={'w-8 h-8 bg-[gray] text-white rounded-md ml-4'}>
+                            <MdOutlineEdit className={'w-6 h-6 m-auto'}/>
+                        </button>
+                    </div>
+
+                    <div className={'h-[85%]'}>
+                        <div className={'overflow-auto w-[100%] h-[100%] rounded-xl border shadow-md'}>
+                            <DataTable/>
+                        </div>
+                    </div>
 
                 </div>
 
