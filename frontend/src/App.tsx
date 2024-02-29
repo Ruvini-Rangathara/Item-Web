@@ -1,14 +1,19 @@
-import { useState } from 'react'
-import './App.css'
+import Header from "./view/head.tsx";
+import Dashboard from "./view/dashboard.tsx";
+import Sidebar from "./view/sidebar.tsx";
 
 function App() {
-  const [count, setCount] = useState(0)
 
-  return (
-    <>
+    return (
+        <>
 
-    </>
-  )
+            <Header/>
+            <Sidebar/>
+
+
+            <Dashboard/>
+        </>
+    )
 }
 
 export default App
