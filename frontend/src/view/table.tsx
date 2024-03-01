@@ -10,9 +10,18 @@ import {useEffect, useState} from "react";
 import Swal from "sweetalert2";
 import {MdOutlineEdit} from "react-icons/md";
 import "/src/App.css";
+import Form from "./Form.tsx";
 
 
 export default function DenseTable() {
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const toggleModal = () => {
+        setIsModalOpen(!isModalOpen);
+    };
+
+
     const [items, setItems] = useState([]);
     const [searchText, setSearchText] = useState('');
 
@@ -66,10 +75,10 @@ export default function DenseTable() {
     };
 
     const loadMyItems = () => {
-        if(searchText === ''){
+        if (searchText === '') {
             loadMyAllItems();
-        }else{
-            const url = "http://localhost:8080/api/item/byDescription/"+searchText;
+        } else {
+            const url = "http://localhost:8080/api/item/byDescription/" + searchText;
             fetch(url, {
                 method: 'GET',
                 headers: {
@@ -102,6 +111,12 @@ export default function DenseTable() {
         loadMyItems();
     };
 
+    const Modal = () => {
+        return (
+            <Form/>
+        );
+    };
+
     return (
         <div>
             <div className={'flex mb-2 justify-between pt-4'}>
@@ -114,41 +129,51 @@ export default function DenseTable() {
                             onClick={handleSearch}>Search
                     </button>
                 </div>
-                <button className={'w-[30px] h-[25px] bg-[gray] text-white rounded-md ml-4 mt-[5px]'}>
-                    <MdOutlineEdit className={'w-[20px] h-[20px] m-auto'}/>
-                </button>
+
+
+                <div>
+                    <button
+                        className={'w-[30px] h-[25px] bg-[gray] text-white rounded-md ml-4 mt-[5px]'}
+                        onClick={toggleModal}
+                    >
+                        <MdOutlineEdit className={'w-[20px] h-[20px] m-auto'}/>
+                    </button>
+                    {isModalOpen && <Modal onClose={toggleModal}/>}
+                </div>
+
+
             </div>
 
-            <div style={{ overflow: 'auto', height:"60vh"}} className={'overflow-auto'}>
-            <TableContainer component={Paper}>
-                <Table sx={{minWidth: 650}} size="small" aria-label="a dense table">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell><strong>Item Code</strong></TableCell>
-                            <TableCell align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                Description</strong></TableCell>
-                            <TableCell align="right"><strong>Unit Price&nbsp;(LKR)</strong></TableCell>
-                            <TableCell align="right"><strong>Qty On Hand&nbsp;(unit)</strong></TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {items.map((row) => (
-                            <TableRow
-                                key={row.code}
-                                sx={{'&:last-child td, &:last-child th': {border: 0}}}
-                            >
-                                <TableCell component="th" scope="row">
-                                    {row.code}
-                                </TableCell>
-                                <TableCell align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    {row.description}</TableCell>
-                                <TableCell align="right">{row.unitPrice}</TableCell>
-                                <TableCell align="right">{row.qtyOnHand}</TableCell>
+            <div style={{overflow: 'auto', height: "60vh"}} className={'overflow-auto'}>
+                <TableContainer component={Paper}>
+                    <Table sx={{minWidth: 650}} size="small" aria-label="a dense table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell><strong>Item Code</strong></TableCell>
+                                <TableCell align="left"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    Description</strong></TableCell>
+                                <TableCell align="right"><strong>Unit Price&nbsp;(LKR)</strong></TableCell>
+                                <TableCell align="right"><strong>Qty On Hand&nbsp;(unit)</strong></TableCell>
                             </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
+                        </TableHead>
+                        <TableBody>
+                            {items.map((row) => (
+                                <TableRow
+                                    key={row.code}
+                                    sx={{'&:last-child td, &:last-child th': {border: 0}}}
+                                >
+                                    <TableCell component="th" scope="row">
+                                        {row.code}
+                                    </TableCell>
+                                    <TableCell align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        {row.description}</TableCell>
+                                    <TableCell align="right">{row.unitPrice}</TableCell>
+                                    <TableCell align="right">{row.qtyOnHand}</TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
             </div>
         </div>
     );
