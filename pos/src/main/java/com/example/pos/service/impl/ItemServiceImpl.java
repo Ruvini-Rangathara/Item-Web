@@ -66,6 +66,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public List<ItemDTO> getAllItems() {
         List<Item> items = itemDao.findAll();
+        System.out.println("items in service : "+items.toString());
         return items.stream().map(item -> modelMapper.map(item, ItemDTO.class)).toList();
     }
 

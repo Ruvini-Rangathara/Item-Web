@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
+//@CrossOrigin(origins = "http://localhost:5174")
 @RestController
 @RequestMapping("/api/item")
 public class ItemController {
@@ -17,6 +20,8 @@ public class ItemController {
     @GetMapping
     public ResponseEntity<ResponseDTO> getAllItems() {
         try{
+            List<ItemDTO> allItems = itemService.getAllItems();
+            System.out.println(allItems.toString());
             return ResponseEntity.ok(new ResponseDTO(200, "Success", itemService.getAllItems()));
         } catch (Exception e) {
             return ResponseEntity.ok(new ResponseDTO(500, e.getMessage(), null));
@@ -50,7 +55,7 @@ public class ItemController {
         }
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{code}")
     public ResponseEntity<ResponseDTO> deleteItem(@PathVariable("code") String code) {
         try{
             return ResponseEntity.ok(new ResponseDTO(200, "Success", itemService.deleteItem(code)));

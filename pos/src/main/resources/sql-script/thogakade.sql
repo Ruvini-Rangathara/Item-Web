@@ -6,9 +6,8 @@ USE thogaKade;
 CREATE TABLE IF NOT EXISTS item(
                      code VARCHAR(6) PRIMARY KEY,
                      description VARCHAR(50),
-                     unitPrice DECIMAL(8,2),
-                     qtyOnHand INT(5)
-
+                     unit_price DECIMAL(8,2),
+                     qty_on_hand INT(5)
 );
 
 INSERT INTO item VALUES('P001','Keerisamba Retail',105.00,3000);

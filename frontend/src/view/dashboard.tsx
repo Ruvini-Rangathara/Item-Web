@@ -1,5 +1,6 @@
 import DataTable from "./table.tsx";
 import { MdOutlineEdit } from "react-icons/md";
+import '/src/App.css';
 
 const Dashboard = () => {
     return (
