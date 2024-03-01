@@ -1,8 +1,72 @@
 import DataTable from "./table.tsx";
-import { MdOutlineEdit } from "react-icons/md";
 import '/src/App.css';
+import {useEffect, useState} from "react";
+import Swal from "sweetalert2";
 
 const Dashboard = () => {
+    const [total, setTotal] = useState(0);
+    const [count , setCount] = useState(0);
+
+    useEffect(() => {
+        loadItemCount();
+        loadItemTotal();
+    }, []);
+
+    const loadItemTotal = () => {
+        fetch("http://localhost:8080/api/item/totPrice", {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Failed to fetch data');
+                }
+            })
+            .then(data => {
+                console.log("data.content Tot Price : ", data.content)
+                setTotal(data.content);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops!",
+                    text: "There was an error fetching items."
+                });
+            });
+    };
+
+    const loadItemCount = () => {
+        fetch("http://localhost:8080/api/item/count", {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Failed to fetch data');
+                }
+            })
+            .then(data => {
+                setCount(data.content);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops!",
+                    text: "There was an error fetching items."
+                });
+            });
+    };
+
     return (
         <div className={'ml-[5vw] w-100vw bg-[white] h-screen pt-14 flex'}>
 
@@ -21,22 +85,10 @@ const Dashboard = () => {
 
                 </div>
 
-                <div className={'bg-[#F5F5F5] w-[97%] h-[73vh] border rounded-lg mx-6 mt-4 px-10 pt-4'}>
-                    <div className={'flex mb-4 justify-between'}>
+                <div className={'bg-[#F5F5F5] w-[97%] h-[73vh] border rounded-lg mx-6 mt-4 px-4'}>
 
-                        <div className={'w-[80%]'}>
-                            <input type={'text'} placeholder={'Search...'}
-                                   className={'w-[35%] h-[30px] border rounded-lg pl-4'}/>
-                            <button className={'w-[12%] h-[28px] bg-[#87C331] text-white rounded-lg ml-4'}>Search
-                            </button>
-                        </div>
-                        <button className={'w-8 h-8 bg-[gray] text-white rounded-md ml-4'}>
-                            <MdOutlineEdit className={'w-6 h-6 m-auto'}/>
-                        </button>
-                    </div>
-
-                    <div className={'h-[85%]'}>
-                        <div className={'overflow-auto w-[100%] h-[100%] rounded-xl border shadow-md'}>
+                    <div className={'h-[95%] w-[100%]'}>
+                        <div className={'w-[100%] px-4 h-[100%]'}>
                             <DataTable/>
                         </div>
                     </div>
@@ -48,13 +100,13 @@ const Dashboard = () => {
                 <div className={'flex flex-col mt-10'}>
                     <div
                         className={'mb-4 ml-6 border-l-[4px] border-l-[#D6D600] w-[50%] h-[10vh] shadow-xl bg-[#F1F100] mx-auto rounded-2xl shadow-m  flex flex-col justify-center items-center'}>
-                        <label className={'text-[15px] '}>175400.00</label>
+                        <label className={'text-[15px] '}>RS : {total}.00</label>
                         <label className={'text-[18px]'}>Total Cost</label>
                     </div>
 
                     <div
                         className={'mr-6 border-l-[4px] border-l-[green] w-[50%] h-[10vh] shadow-xl bg-[#87C331] mx-auto rounded-2xl shadow-m  flex flex-col justify-center items-center'}>
-                        <label className={'text-[15px] '}>23</label>
+                        <label className={'text-[15px] '}>{count}</label>
                         <label className={'text-[18px]'}>Total Items</label>
                     </div>
 

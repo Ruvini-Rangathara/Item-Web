@@ -84,4 +84,10 @@ public class ItemServiceImpl implements ItemService {
     public String getLastCode() {
         return itemDao.getLastCode();
     }
+
+    @Override
+    public List<ItemDTO> findByDescription(String description) {
+        List<Item> items = itemDao.findByDescription(description);
+        return items.stream().map(item -> modelMapper.map(item, ItemDTO.class)).toList();
+    }
 }

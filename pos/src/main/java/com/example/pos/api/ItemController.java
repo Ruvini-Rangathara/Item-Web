@@ -93,4 +93,17 @@ public class ItemController {
         }
     }
 
+    @GetMapping("/byDescription/{description}")
+    public ResponseEntity<ResponseDTO> findByDescription(@PathVariable("description") String description) {
+        try{
+            if (description==null || description.isEmpty()) {
+                return ResponseEntity.ok(new ResponseDTO(200, "Success", itemService.getAllItems()));
+            }
+            return ResponseEntity.ok(new ResponseDTO(200, "Success", itemService.findByDescription(description)));
+        } catch (Exception e) {
+
+            return ResponseEntity.ok(new ResponseDTO(500, e.getMessage(), itemService.getAllItems()));
+        }
+    }
+
 }

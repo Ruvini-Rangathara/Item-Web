@@ -14,4 +14,5 @@ public interface ItemService {
     long countItems();
     double getTotalPrice();
     String getLastCode();
+    List<ItemDTO> findByDescription(String description);
 }
