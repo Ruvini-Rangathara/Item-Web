@@ -10,6 +10,8 @@ const Form = () => {
     const [description, setDescription] = useState('');
     const [unitPrice, setUnitPrice] = useState('');
     const [qtyOnHand, setQtyOnHand] = useState('');
+    const [image, setImage] = useState(null);
+    const [imageFile, setImageFile] = useState(null);
 
     const [saveButton, setSaveButton] = useState('Update');
 
@@ -268,6 +270,72 @@ const Form = () => {
         }
     };
 
+    const handleImageChange = (e) => {
+        const file = e.target.files[0]; // Get the selected file
+        const reader = new FileReader();
+        setImageFile(file);
+
+        reader.onloadend = () => {
+            setImage(reader.result); // Here, you might be setting the data URI to the image state
+            console.log("image: ", image)
+        };
+
+        if (file) {
+            reader.readAsDataURL(file);
+            setImage(file); // Set the selected file object to the image state
+        }
+        console.log("image file : ", imageFile)
+    };
+
+
+
+    //////////////////////////////////////////////////////////////////////////////////////////
+    // const saveWithImage = async () => {
+    //     console.log("in saveWithImage")
+    //     if (!(imageFile instanceof File)) {
+    //         console.error('Invalid image file');
+    //         return;
+    //     }else{
+    //         console.log("imageFile: ", imageFile)
+    //     }
+    //
+    //     const formData = new FormData();
+    //     formData.append('image', imageFile);
+    //
+    //     const item = {
+    //         code: code,
+    //         description: description,
+    //         unitPrice: unitPrice,
+    //         qtyOnHand: qtyOnHand
+    //     };
+    //
+    //     formData.append('item', JSON.stringify(item));
+    //
+    //     try {
+    //         const response = await fetch("http://localhost:8080/api/item/save", {
+    //             method: 'POST',
+    //             body: formData,
+    //             headers: {
+    //                 'Content-Type': 'multipart/form-data',
+    //             },
+    //         });
+    //
+    //         if (!response.ok) {
+    //             throw new Error('Failed to add item');
+    //         }
+    //
+    //         console.log('Item added successfully');
+    //     } catch (error) {
+    //         console.error('Error adding item:', error);
+    //         Swal.fire({
+    //             icon: "error",
+    //             title: "Oops!",
+    //             text: "There was an error adding the item."
+    //         });
+    //     }
+    // };
+
+    //////////////////////////////////////////////////////////////////////////////////////////
 
     return (
         <div className="modal-container">
@@ -277,11 +345,15 @@ const Form = () => {
                     <p className={'text-center text-[25px] text-[green]'}>Manage Item Form</p>
 
                     <div className={'flex'}>
-                        <img src={'/src/assets/rice.jpeg'} alt={'Item'} className={'ml-6 w-32 h-32 rounded-md mr-2'}/>
-                        <button
-                            className={'w-[30px] h-[25px] bg-[gray] text-white rounded-md mt-[5px] self-end'}>
+                       <img src={image || '/src/assets/rice.jpeg'} alt={'Item'}
+                             className={'ml-6 w-32 h-32 rounded-md mr-2 border'}/>
+                        <label htmlFor="file-upload"
+                               className={'w-[30px] h-[25px] bg-[gray] text-white rounded-md mt-[5px] self-end'}>
                             <MdOutlineEdit className={'w-[20px] h-[20px] m-auto'}/>
-                        </button>
+                        </label>
+                        <input id="file-upload" type="file" accept="image/*" style={{display: "none"}}
+                               onChange={handleImageChange}
+                        />
                     </div>
                     <br/>
 
@@ -331,7 +403,6 @@ const Form = () => {
                     <div className={'w-[80%] flex justify-end'}>
                         <button className={'px-2 text-[13px] h-[27px] bg-[#87C331] text-white rounded-md ml-4'}
                             onClick={saveItem}
-                                value={saveButton}
                         >
                             Update
                         </button>

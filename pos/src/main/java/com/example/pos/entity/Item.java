@@ -1,9 +1,6 @@
 package com.example.pos.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,4 +18,6 @@ public class Item {
     private double unitPrice;
     @Column(name = "qty_on_hand")
     private int qtyOnHand;
+    @Lob
+    private byte[] image;
 }
