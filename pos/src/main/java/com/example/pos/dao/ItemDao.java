@@ -11,7 +11,7 @@ public interface ItemDao extends JpaRepository<Item, String> {
     @Query("SELECT SUM(i.unitPrice * i.qtyOnHand) FROM Item i")
     double getTotalPrice();
 
-    @Query("SELECT i.code FROM Item i ORDER BY i.code DESC")
+    @Query("SELECT i.code FROM Item i ORDER BY i.code DESC LIMIT 1")
     String getLastCode();
 
     @Query("SELECT i FROM Item i WHERE i.description LIKE %?1%")

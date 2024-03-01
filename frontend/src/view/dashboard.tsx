@@ -27,7 +27,6 @@ const Dashboard = () => {
                 }
             })
             .then(data => {
-                console.log("data.content Tot Price : ", data.content)
                 setTotal(data.content);
             })
             .catch(error => {

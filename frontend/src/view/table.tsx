@@ -21,7 +21,6 @@ export default function DenseTable() {
         setIsModalOpen(!isModalOpen);
     };
 
-
     const [items, setItems] = useState([]);
     const [searchText, setSearchText] = useState('');
 

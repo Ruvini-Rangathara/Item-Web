@@ -21,7 +21,6 @@ public class ItemController {
     public ResponseEntity<ResponseDTO> getAllItems() {
         try{
             List<ItemDTO> allItems = itemService.getAllItems();
-            System.out.println(allItems.toString());
             return ResponseEntity.ok(new ResponseDTO(200, "Success", itemService.getAllItems()));
         } catch (Exception e) {
             return ResponseEntity.ok(new ResponseDTO(500, e.getMessage(), null));
@@ -84,6 +83,7 @@ public class ItemController {
 
     @GetMapping("/newCode")
     public ResponseEntity<ResponseDTO> getLastCode() {
+        System.out.println("////////////////////////////////////////////////////////////////");
         try{
             String lastCode = itemService.getLastCode();
             String newCode = "P" + String.format("%03d", Integer.parseInt(lastCode.substring(1)) + 1);
